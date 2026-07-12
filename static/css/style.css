@@ -1,0 +1,169 @@
+/* ==========================================================================
+   UCRS custom theme — layered on top of Bootstrap 5
+   ========================================================================== */
+
+:root {
+    --navy: #14213D;
+    --navy-light: #1F2E52;
+    --gold: #C9A227;
+    --bg: #F3F5F9;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background-color: var(--navy);
+    color: #EDEFF4;
+}
+
+.sidebar .brand-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+}
+.sidebar .brand-sub {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #A9B1C7;
+}
+.sidebar .seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 0.7rem;
+}
+
+.sidebar .nav-link {
+    color: #C7CDE0;
+    border-left: 3px solid transparent;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+}
+.sidebar .nav-link:hover {
+    background-color: var(--navy-light);
+    color: #fff;
+}
+.sidebar .nav-link.active {
+    background-color: var(--navy-light);
+    color: #fff;
+    border-left-color: var(--gold);
+    font-weight: 600;
+}
+
+.sidebar-user {
+    color: #EDEFF4;
+}
+.sidebar .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+/* ---- Main content area ---- */
+.main-content {
+    min-height: 100vh;
+    background-color: var(--bg);
+}
+.topbar {
+    height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #E4E7EE;
+}
+
+.page-title {
+    font-family: Georgia, serif;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 1.6rem;
+}
+
+/* ---- Cards & stats ---- */
+.app-card {
+    border: 1px solid #E4E7EE;
+    border-radius: 12px;
+}
+.app-card-header {
+    background: #fff;
+    font-weight: 700;
+    font-family: Georgia, serif;
+    border-bottom: 1px solid #E4E7EE;
+}
+.stat-card {
+    background: #fff;
+    border: 1px solid #E4E7EE;
+    border-top: 3px solid var(--gold);
+    border-radius: 12px;
+    padding: 18px 20px;
+}
+.stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6B7280;
+}
+.stat-value {
+    font-family: Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navy);
+}
+.stat-delta {
+    font-size: 0.75rem;
+    color: #6B7280;
+}
+
+/* ---- Buttons ---- */
+.btn-gold {
+    background-color: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+}
+.btn-gold:hover {
+    background-color: #b8931f;
+    border-color: #b8931f;
+    color: var(--navy);
+}
+
+/* ---- Login page ---- */
+.login-left {
+    flex: 1.15;
+    background: radial-gradient(circle at 18% 22%, rgba(201,162,39,0.14), transparent 45%),
+                radial-gradient(circle at 82% 78%, rgba(201,162,39,0.10), transparent 45%),
+                var(--navy);
+}
+.login-right { flex: 1; }
+.seal-lg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border: 2.5px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold);
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+}

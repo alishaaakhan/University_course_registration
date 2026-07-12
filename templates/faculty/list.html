@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Faculty{% endblock %}
+{% block crumb %}Faculty Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h1 class="page-title">Faculty Management</h1>
+        <p class="text-muted mb-0">{{ faculty_members|length }} faculty member(s)</p>
+    </div>
+    <a href="{{ url_for('faculty.add_faculty') }}" class="btn btn-gold">
+        <i class="bi bi-plus-lg me-1"></i>Add Faculty
+    </a>
+</div>
+
+<div class="card app-card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Name</th><th>Department</th><th>Designation</th>
+                    <th>Type</th><th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for f in faculty_members %}
+                <tr>
+                    <td>{{ f.faculty_id }}</td>
+                    <td class="fw-semibold">{{ f.name }}</td>
+                    <td>{{ f.department.dept_name if f.department else '—' }}</td>
+                    <td>{{ f.designation or '—' }}</td>
+                    <td>
+                        <span class="badge {{ 'text-bg-primary' if f.faculty_type == 'Permanent' else 'text-bg-warning' }}">
+                            {{ f.faculty_type }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('faculty.edit_faculty', faculty_id=f.faculty_id) }}"
+                           class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" class="d-inline"
+                              action="{{ url_for('faculty.delete_faculty', faculty_id=f.faculty_id) }}"
+                              onsubmit="return confirm('Delete this faculty member?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6" class="text-muted text-center py-4">No faculty members found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

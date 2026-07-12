@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if department else 'Add' }} Department{% endblock %}
+{% block crumb %}Department Management{% endblock %}
+
+{% block content %}
+<h1 class="page-title mb-4">{{ 'Edit Department' if department else 'Add New Department' }}</h1>
+
+<div class="card app-card" style="max-width: 560px;">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Department Name</label>
+                <input type="text" name="dept_name" class="form-control" required
+                       value="{{ department.dept_name if department else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Head of Department</label>
+                <input type="text" name="hod_name" class="form-control"
+                       value="{{ department.hod_name if department else '' }}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Building</label>
+                <input type="text" name="building" class="form-control"
+                       value="{{ department.building if department else '' }}">
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-gold">Save Department</button>
+                <a href="{{ url_for('departments.list_departments') }}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

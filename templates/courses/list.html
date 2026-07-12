@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block crumb %}Course Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h1 class="page-title">Course Management</h1>
+        <p class="text-muted mb-0">{{ courses|length }} course(s)</p>
+    </div>
+    <a href="{{ url_for('courses.add_course') }}" class="btn btn-gold">
+        <i class="bi bi-plus-lg me-1"></i>Add Course
+    </a>
+</div>
+
+<div class="card app-card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Course ID</th><th>Course Name</th><th>Department</th>
+                    <th>Credits</th><th>Faculty</th><th>Capacity</th>
+                    <th>Enrolled</th><th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for c in courses %}
+                <tr>
+                    <td class="fw-semibold">{{ c.course_id }}</td>
+                    <td>{{ c.course_name }}</td>
+                    <td>{{ c.department.dept_name if c.department else '—' }}</td>
+                    <td>{{ c.credits }}</td>
+                    <td>{{ c.faculty.name if c.faculty else '—' }}</td>
+                    <td>{{ c.seat_capacity }}</td>
+                    <td>
+                        {% set enrolled = c.enrolled_count %}
+                        <span class="badge {{ 'text-bg-danger' if enrolled >= c.seat_capacity else 'text-bg-success' }}">
+                            {{ enrolled }} / {{ c.seat_capacity }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('courses.edit_course', course_id=c.course_id) }}"
+                           class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" class="d-inline"
+                              action="{{ url_for('courses.delete_course', course_id=c.course_id) }}"
+                              onsubmit="return confirm('Delete this course?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8" class="text-muted text-center py-4">No courses found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

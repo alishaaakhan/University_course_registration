@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}New Enrollment{% endblock %}
+{% block crumb %}Enrollment{% endblock %}
+
+{% block content %}
+<h1 class="page-title mb-4">New Enrollment</h1>
+
+<div class="card app-card" style="max-width: 640px;">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Student</label>
+                    <select name="student_id" class="form-select" required>
+                        <option value="" disabled selected>Select student</option>
+                        {% for s in students %}
+                            <option value="{{ s.student_id }}">{{ s.student_id }} — {{ s.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Course</label>
+                    <select name="course_id" class="form-select" required>
+                        <option value="" disabled selected>Select course</option>
+                        {% for c in courses %}
+                            <option value="{{ c.course_id }}">
+                                {{ c.course_id }} — {{ c.course_name }}
+                                ({{ c.enrolled_count }} / {{ c.seat_capacity }} seats)
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Semester</label>
+                    <input type="text" name="semester" class="form-control" required
+                           value="Odd 2025-26">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Grade (optional)</label>
+                    <input type="text" name="grade" class="form-control" maxlength="3"
+                           placeholder="Leave blank if in progress">
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-3 mb-0">
+                <i class="bi bi-info-circle me-1"></i>
+                Seat capacity is checked before saving — both here in the app and again by the
+                <code>trg_check_seat_capacity</code> trigger in MySQL.
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-gold">Confirm Enrollment</button>
+                <a href="{{ url_for('enrollment.list_enrollments') }}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

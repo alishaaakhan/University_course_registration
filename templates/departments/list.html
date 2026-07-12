@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Departments{% endblock %}
+{% block crumb %}Department Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h1 class="page-title">Department Management</h1>
+        <p class="text-muted mb-0">{{ departments|length }} department(s)</p>
+    </div>
+    <a href="{{ url_for('departments.add_department') }}" class="btn btn-gold">
+        <i class="bi bi-plus-lg me-1"></i>Add Department
+    </a>
+</div>
+
+<div class="card app-card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Department Name</th><th>Head of Dept.</th>
+                    <th>Building</th><th>Students</th><th>Courses</th><th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for d in departments %}
+                <tr>
+                    <td>{{ d.dept_id }}</td>
+                    <td class="fw-semibold">{{ d.dept_name }}</td>
+                    <td>{{ d.hod_name or '—' }}</td>
+                    <td>{{ d.building or '—' }}</td>
+                    <td>{{ d.student_count }}</td>
+                    <td>{{ d.course_count }}</td>
+                    <td class="text-end">
+                        <a href="{{ url_for('departments.edit_department', dept_id=d.dept_id) }}"
+                           class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" class="d-inline"
+                              action="{{ url_for('departments.delete_department', dept_id=d.dept_id) }}"
+                              onsubmit="return confirm('Delete this department?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7" class="text-muted text-center py-4">No departments found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if student else 'Add' }} Student{% endblock %}
+{% block crumb %}Student Management{% endblock %}
+
+{% block content %}
+<h1 class="page-title mb-4">{{ 'Edit Student' if student else 'Add New Student' }}</h1>
+
+<div class="card app-card" style="max-width: 640px;">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-control" required
+                           value="{{ student.name if student else '' }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Department</label>
+                    <select name="dept_id" class="form-select" required>
+                        <option value="" disabled {{ '' if student else 'selected' }}>Select department</option>
+                        {% for d in departments %}
+                            <option value="{{ d.dept_id }}"
+                                {{ 'selected' if student and student.dept_id == d.dept_id }}>
+                                {{ d.dept_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Year</label>
+                    <select name="year" class="form-select" required>
+                        {% for y in [1,2,3,4] %}
+                            <option value="{{ y }}" {{ 'selected' if student and student.year == y }}>
+                                Year {{ y }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control"
+                           value="{{ student.email if student else '' }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" name="dob" class="form-control"
+                           value="{{ student.dob if student else '' }}">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-gold">Save Student</button>
+                <a href="{{ url_for('students.list_students') }}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

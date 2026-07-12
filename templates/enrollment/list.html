@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Enrollment{% endblock %}
+{% block crumb %}Enrollment{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-end mb-4">
+    <div>
+        <h1 class="page-title">Enrollment</h1>
+        <p class="text-muted mb-0">{{ enrollments|length }} registration record(s)</p>
+    </div>
+    <a href="{{ url_for('enrollment.add_enrollment') }}" class="btn btn-gold">
+        <i class="bi bi-plus-lg me-1"></i>New Enrollment
+    </a>
+</div>
+
+<div class="card app-card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Student</th><th>Course</th><th>Semester</th>
+                    <th>Grade</th><th>Enroll Date</th><th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for e in enrollments %}
+                <tr>
+                    <td>{{ e.enroll_id }}</td>
+                    <td>{{ e.student.name }}</td>
+                    <td><span class="badge text-bg-dark">{{ e.course_id }}</span> {{ e.course.course_name }}</td>
+                    <td>{{ e.semester }}</td>
+                    <td>
+                        {% if e.grade %}
+                            <span class="badge text-bg-success">{{ e.grade }}</span>
+                        {% else %}
+                            <span class="badge text-bg-secondary">In Progress</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ e.enroll_date }}</td>
+                    <td class="text-end">
+                        <form method="POST" class="d-inline"
+                              action="{{ url_for('enrollment.delete_enrollment', enroll_id=e.enroll_id) }}"
+                              onsubmit="return confirm('Remove this enrollment record?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="7" class="text-muted text-center py-4">No enrollment records found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

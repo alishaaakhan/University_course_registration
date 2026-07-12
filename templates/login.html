@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block guest_content %}
+<div class="login-wrap d-flex min-vh-100">
+    <div class="login-left d-none d-md-flex flex-column justify-content-center px-5 text-white">
+        <div class="seal-lg mb-4">UCRS</div>
+        <h1 class="display-6 fw-bold">Vidyapeeth University<br>Course Registration System</h1>
+        <p class="text-light-emphasis mt-3" style="max-width: 480px;">
+            A unified platform for managing students, faculty, courses, departments
+            and semester enrollments — built on MySQL with Flask.
+        </p>
+    </div>
+
+    <div class="login-right d-flex flex-column justify-content-center px-4 px-md-5 bg-white">
+        <div style="max-width: 380px; width: 100%; margin: 0 auto;">
+            <h2 class="fw-bold mb-1">Welcome back</h2>
+            <p class="text-muted mb-4">Sign in to manage academic records</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" required autofocus
+                           placeholder="admin">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" required
+                           placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-gold w-100 py-2 fw-semibold">Sign In</button>
+            </form>
+            <p class="text-muted small text-center mt-4">
+                Default demo login: <strong>admin</strong> / <strong>admin123</strong>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

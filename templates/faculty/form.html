@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if faculty else 'Add' }} Faculty{% endblock %}
+{% block crumb %}Faculty Management{% endblock %}
+
+{% block content %}
+<h1 class="page-title mb-4">{{ 'Edit Faculty' if faculty else 'Add New Faculty' }}</h1>
+
+<div class="card app-card" style="max-width: 680px;">
+    <div class="card-body">
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" name="name" class="form-control" required
+                           value="{{ faculty.name if faculty else '' }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Department</label>
+                    <select name="dept_id" class="form-select" required>
+                        <option value="" disabled {{ '' if faculty else 'selected' }}>Select department</option>
+                        {% for d in departments %}
+                            <option value="{{ d.dept_id }}"
+                                {{ 'selected' if faculty and faculty.dept_id == d.dept_id }}>
+                                {{ d.dept_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Designation</label>
+                    <input type="text" name="designation" class="form-control"
+                           value="{{ faculty.designation if faculty else '' }}" placeholder="e.g. Professor">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label d-block">Faculty Type (specialization)</label>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="faculty_type" id="type-permanent"
+                               value="Permanent" onclick="toggleFacultyType('Permanent')"
+                               {{ 'checked' if not faculty or faculty.faculty_type == 'Permanent' }}>
+                        <label class="btn btn-outline-primary" for="type-permanent">Permanent</label>
+
+                        <input type="radio" class="btn-check" name="faculty_type" id="type-visiting"
+                               value="Visiting" onclick="toggleFacultyType('Visiting')"
+                               {{ 'checked' if faculty and faculty.faculty_type == 'Visiting' }}>
+                        <label class="btn btn-outline-primary" for="type-visiting">Visiting</label>
+                    </div>
+                </div>
+
+                <!-- Permanent-only fields -->
+                <div class="col-md-6 field-permanent">
+                    <label class="form-label">Date of Joining</label>
+                    <input type="date" name="date_of_joining" class="form-control"
+                           value="{{ faculty.permanent_detail.date_of_joining if faculty and faculty.permanent_detail else '' }}">
+                </div>
+                <div class="col-md-6 field-permanent">
+                    <label class="form-label">Pay Scale</label>
+                    <input type="text" name="pay_scale" class="form-control"
+                           value="{{ faculty.permanent_detail.pay_scale if faculty and faculty.permanent_detail else '' }}"
+                           placeholder="e.g. Level 13">
+                </div>
+
+                <!-- Visiting-only fields -->
+                <div class="col-md-6 field-visiting">
+                    <label class="form-label">Contract Period</label>
+                    <input type="text" name="contract_period" class="form-control"
+                           value="{{ faculty.visiting_detail.contract_period if faculty and faculty.visiting_detail else '' }}"
+                           placeholder="e.g. Odd 2025-26">
+                </div>
+                <div class="col-md-6 field-visiting">
+                    <label class="form-label">Honorarium / Class (₹)</label>
+                    <input type="number" step="0.01" name="honorarium_per_class" class="form-control"
+                           value="{{ faculty.visiting_detail.honorarium_per_class if faculty and faculty.visiting_detail else '' }}">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-gold">Save Faculty</button>
+                <a href="{{ url_for('faculty.list_faculty') }}" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Show only the fields relevant to the selected faculty type.
+    function toggleFacultyType(type) {
+        document.querySelectorAll('.field-permanent').forEach(el =>
+            el.style.display = (type === 'Permanent') ? 'block' : 'none');
+        document.querySelectorAll('.field-visiting').forEach(el =>
+            el.style.display = (type === 'Visiting') ? 'block' : 'none');
+    }
+    // Run once on page load to match whichever radio is pre-checked.
+    document.addEventListener('DOMContentLoaded', () => {
+        const checked = document.querySelector('input[name="faculty_type"]:checked');
+        toggleFacultyType(checked ? checked.value : 'Permanent');
+    });
+</script>
+{% endblock %}
